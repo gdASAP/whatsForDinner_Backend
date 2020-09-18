@@ -23,7 +23,7 @@ const removeBlanks = require('../../lib/remove_blank_fields')
 // so that a token MUST be passed for that route to be available
 // it will also set `req.user`
 const requireToken = passport.authenticate('bearer', { session: false })
-
+// console.log('requireToken: ', requireToken)
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
