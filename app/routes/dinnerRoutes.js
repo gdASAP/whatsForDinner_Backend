@@ -6,6 +6,7 @@ const passport = require('passport')
 // pull in Mongoose model for dinner
 const Dinner = require('../models/dinner')
 
+
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
 const customErrors = require('../../lib/custom_errors')
@@ -30,15 +31,23 @@ const router = express.Router()
 // INDEX
 // GET /dinner
 router.get('/dinner', requireToken, (req, res, next) => {
+  console.log('body is ', req.body)
   Dinner.find()
     .then(dinner => {
       // `dinner` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
       // apply `.toObject` to each one
-      return dinner.map(example => example.toObject())
+      return dinner.map(dinner => dinner.toObject())
     })
+   .then(dinner => {
+     //console.log('dinner objects: ', dinner)
+     // filters the dinner objects looking for the owner
+     // need to find owner value that is passed in with req instead of using the string
+     return dinner.filter(el => el.owner == '5f64c0890416121be9707bcd')
+   })
     // respond with status 200 and JSON of the dinner
-    .then(dinner => res.status(200).json({ dinner: dinner }))
+
+    .then(dinner => res.status(200).json({ dinner }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
@@ -59,9 +68,8 @@ router.get('/dinner/:id', requireToken, (req, res, next) => {
 // POST /dinner
 router.post('/dinner', requireToken, (req, res, next) => {
   // set owner of new example to be current user
-  req.body.dinner.owner = req.user.id
+  Dinner.create(req.body)
 
-  Dinner.create(req.body.dinner)
     // respond to succesful `create` with status 201 and JSON of new "example"
     .then(dinner => {
       res.status(201).json({ dinner: dinner.toObject() })
