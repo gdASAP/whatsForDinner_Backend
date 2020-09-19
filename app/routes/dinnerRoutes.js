@@ -6,7 +6,7 @@ const passport = require('passport')
 // pull in Mongoose model for dinner
 const Dinner = require('../models/dinner')
 
-
+const store = require('./../../config/store')
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
 const customErrors = require('../../lib/custom_errors')
@@ -31,7 +31,7 @@ const router = express.Router()
 // INDEX
 // GET /dinner
 router.get('/dinner', requireToken, (req, res, next) => {
-  console.log('body is ', req.body)
+  //console.log('body is ', req.body)
   Dinner.find()
     .then(dinner => {
       // `dinner` will be an array of Mongoose documents
@@ -43,11 +43,12 @@ router.get('/dinner', requireToken, (req, res, next) => {
      //console.log('dinner objects: ', dinner)
      // filters the dinner objects looking for the owner
      // need to find owner value that is passed in with req instead of using the string
-     return dinner.filter(el => el.owner == '5f64c0890416121be9707bcd')
+     //console.log('dinner route user ID: ', store._id)
+     return dinner.filter(el => el.owner == `${store._id}`)
    })
     // respond with status 200 and JSON of the dinner
 
-    .then(dinner => res.status(200).json({ dinner }))
+    .then(dinner => res.status(200).json({ dinner}))
     // if an error occurs, pass it to the handler
     .catch(next)
 })

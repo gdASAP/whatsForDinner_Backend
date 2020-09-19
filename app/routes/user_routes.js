@@ -16,6 +16,7 @@ const BadParamsError = errors.BadParamsError
 const BadCredentialsError = errors.BadCredentialsError
 
 const User = require('../models/user')
+const store = require('./../../config/store')
 
 // passing this as a second argument to `router.<verb>` will make it
 // so that a token MUST be passed for that route to be available
@@ -91,6 +92,9 @@ router.post('/sign-in', (req, res, next) => {
       }
     })
     .then(user => {
+      //console.log('user route user ID: ', store.userID)
+      store._id = user._id
+      //console.log('user route user ID: ', user._id, store._id)
       // return status 201, the email, and the new token
       res.status(201).json({ user: user.toObject() })
     })
