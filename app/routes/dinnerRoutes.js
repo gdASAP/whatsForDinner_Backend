@@ -57,6 +57,7 @@ router.get('/dinner', requireToken, (req, res, next) => {
 // GET /dinner/5a7db6c74d55bc51bdf39793
 router.get('/dinner/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
+//Dinner.findOne({ name: ${req.body.name}})
   Dinner.findById(req.params.id)
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "example" JSON
@@ -87,7 +88,10 @@ router.patch('/dinner/:id', requireToken, removeBlanks, (req, res, next) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
 
-  delete req.body.dinner.owner
+  delete req.body.owner
+
+  console.log('req.body: ', req.body)
+  console.log('params id: ', req.params.id)
   Dinner.findById(req.params.id)
     .then(handle404)
     .then(dinner => {
@@ -96,10 +100,11 @@ router.patch('/dinner/:id', requireToken, removeBlanks, (req, res, next) => {
       requireOwnership(req, dinner)
 
       // pass the result of Mongoose's `.update` to the next `.then`
-      return dinner.updateOne(req.body.dinner)
+      return dinner.updateOne(req.body)
     })
     // if that succeeded, return 204 and no JSON
-    .then(() => res.sendStatus(204))
+  //  .then(() => res.sendStatus(204))
+  .then(() => res.sendStatus(204))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
