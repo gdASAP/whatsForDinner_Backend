@@ -90,7 +90,7 @@ router.patch('/dinner/:id', requireToken, removeBlanks, (req, res, next) => {
 
   delete req.body.owner
 
-  console.log('req.body: ', req.body)
+//  console.log('req.body: ', req.body)
   // console.log('params id: ', req.params.id)
   Dinner.findById(req.params.id)
     .then(handle404)
