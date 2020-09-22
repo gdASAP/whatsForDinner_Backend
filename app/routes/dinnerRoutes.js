@@ -48,7 +48,7 @@ router.get('/dinner', requireToken, (req, res, next) => {
    })
     // respond with status 200 and JSON of the dinner
 
-    .then(dinner => res.status(200).json({ dinner}))
+    .then(dinner => res.status(200).json({ dinner }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
@@ -91,7 +91,7 @@ router.patch('/dinner/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.owner
 
   console.log('req.body: ', req.body)
-  console.log('params id: ', req.params.id)
+  // console.log('params id: ', req.params.id)
   Dinner.findById(req.params.id)
     .then(handle404)
     .then(dinner => {
@@ -100,7 +100,7 @@ router.patch('/dinner/:id', requireToken, removeBlanks, (req, res, next) => {
       requireOwnership(req, dinner)
 
       // pass the result of Mongoose's `.update` to the next `.then`
-      return dinner.updateOne(req.body)
+      return dinner.updateOne(req.body.dinner)
     })
     // if that succeeded, return 204 and no JSON
   //  .then(() => res.sendStatus(204))
