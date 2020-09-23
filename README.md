@@ -8,7 +8,7 @@ interacts. The front end requests and renders all database information from the 
 Frontend Repo: https://github.com/gdASAP/whatsForDinner-Client
 Frontend Deployment https://gdasap.github.io/whatsForDinner-Client/
 Backend Repo: https://github.com/gdASAP/whatsForDinner_Backend
-Backend Deployment: https://dashboard.heroku.com/apps/safe-sands-40791
+Backend Deployment: https://safe-sands-40791.herokuapp.com/
 
 Technologies Used:
 Node, Express, MongoDB
